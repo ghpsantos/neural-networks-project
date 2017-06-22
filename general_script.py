@@ -44,7 +44,6 @@ def simple_sampling(X, y):
 
 simple_sampling(X_train, y_train)
 
-
 def adapted_smote(X, y, k):
     nn = NearestNeighbors(n_neighbors=(k+1), algorithm='auto').fit(X)
  
@@ -74,12 +73,23 @@ def adapted_smote(X, y, k):
     
     ## get the N = len of majoritary class, first elements
     majoritary_len_get_index = list(range(0,len(np.where(y == 0)[0]))) 
-    print(len(X_oversampled[majoritary_len_get_index])) 
-    print(len(np.where(y==0)[0]))
-       
-    return
+   
+    #majoritary
+    X_majoritary = X[np.where(y == 0)[0]]
+    y_majoritary = y[np.where(y == 0)[0]]
+    
+    ##minoritary
+    X_minoritary = X_oversampled[majoritary_len_get_index]
+    y_minoritary = np.ones((len(X_minoritary),), dtype=np.int)
+    
+    X_final = np.append(X_majoritary, X_minoritary,axis=0)
+    y_final = np.append(y_majoritary, y_minoritary, axis=0)
+   
+    rand_index = np.random.choice(np.arange(len(X_final)), size=len(X_final), replace=False)
+    return X_final[rand_index], y_final[rand_index]
 
-adapted_smote (X_train, y_train, 5)
+
+X_train, y_train = adapted_smote (X_train, y_train, 5)
 
 ##normalize
 scaler = StandardScaler()
