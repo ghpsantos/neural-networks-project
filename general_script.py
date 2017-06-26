@@ -188,7 +188,7 @@ def train_mlp(opt, hidden_neuron, transfer_function, X_train, y_train, X_val, y_
     classifier.compile(optimizer=opt, loss='mean_squared_error')
     # Treina a rede, especificando o tamanho do batch, o número máximo de épocas, se deseja 
     # parar prematuramente caso o erro de validação não decresça, e o conjunto de validação.
-    history = classifier.fit(X_train, y_train, batch_size=64, epochs=40,
+    history = classifier.fit(X_train, y_train, batch_size=64, epochs=10000,
                              callbacks=[EarlyStopping()], validation_data=(X_val, y_val))
     ## Fazer predições no conjunto de teste
     y_pred = classifier.predict(X_test)
